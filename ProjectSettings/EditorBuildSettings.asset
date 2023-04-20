@@ -11,4 +11,16 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/SecondFloor/Corridors.unity
+    guid: e0fad812e277c704d9ddd214494429d2
+  - enabled: 1
+    path: Assets/Scenes/SecondFloor/BigRoom.unity
+    guid: 2f3c92ead8e8f304183adf5ba5c62b94
+  - enabled: 1
+    path: Assets/Scenes/SecondFloor/StorageRoom.unity
+    guid: 715610024e59a9a419faa691d435f51d
+  - enabled: 1
+    path: Assets/Scenes/SecondFloor/Toilets.unity
+    guid: 8ee8edd6d061fff47952dcc7a2e67a3e
   m_configObjects: {}

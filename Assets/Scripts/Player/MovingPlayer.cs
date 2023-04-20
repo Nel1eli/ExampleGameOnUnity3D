@@ -64,9 +64,14 @@ public class MovingPlayer : MonoBehaviour
 
         stamina = maxStamina;
     }
-    void Update()
+
+    private void FixedUpdate()
     {
         Rotate();
+    }
+    void Update()
+    {
+        
 
         RaycastHit hit;
         if (Physics.Raycast(transform.position, -transform.up, out hit, 2))
@@ -152,8 +157,8 @@ public class MovingPlayer : MonoBehaviour
     {
         if (!isLock && !InteractPlayer.statusRead)
         {
-            rotateHor += Input.GetAxis("Mouse X") * rotateSpeed * Time.deltaTime;
-            rotateVer += Input.GetAxis("Mouse Y") * rotateSpeed * Time.deltaTime;
+            rotateHor += Input.GetAxis("Mouse X") * rotateSpeed * Time.deltaTime * 100;
+            rotateVer += Input.GetAxis("Mouse Y") * rotateSpeed * Time.deltaTime * 100;
             rotateVer = Mathf.Clamp(rotateVer, -60, 60);
             rotateHorCurrent = Mathf.SmoothDamp(rotateHor, rotateHorCurrent, ref currentVelocityHor, smoothTime);
             rotateVerCurrent = Mathf.SmoothDamp(rotateVer, rotateVerCurrent, ref currentVelocityVer, smoothTime);

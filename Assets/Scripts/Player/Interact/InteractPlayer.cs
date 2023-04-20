@@ -96,10 +96,20 @@ public class InteractPlayer : MonoBehaviour
             }
         }
 
-        if (!isObjectSerialze)
+        if (statusRead)
+        {
+            _image.gameObject.SetActive(false);
+            crosshair.gameObject.SetActive(false);
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+
+        else if (!isObjectSerialze)
         {
             _image.gameObject.SetActive(false);
             crosshair.gameObject.SetActive(true);
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
         }
 
         
