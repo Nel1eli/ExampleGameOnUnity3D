@@ -78,9 +78,22 @@ public class InteractPlayer : MonoBehaviour
 
                     if (Input.GetMouseButtonDown(0))
                     {
-                        _hit.transform.GetComponent<InteractRightElevator>().playMe();
+                        _hit.transform.GetComponent<InteractRightElevator>().isCall = true;
                     }
                 } 
+            }
+
+            if (_hit.transform.GetComponent<QuestItemTrigger>())
+            {
+                isObjectSerialze = true;
+                Debug.DrawRay(_ray.origin, _ray.direction * _distance, Color.green);
+
+                if (Input.GetMouseButtonDown(0))
+                {
+                    _hit.transform.GetComponent<QuestTaker>().OnTriggerOther();
+                    _hit.transform.transform.gameObject.SetActive(false);
+                   
+                }
             }
 
             if (_hit.transform.GetComponent<InteractPaper>() || statusRead)
@@ -90,6 +103,14 @@ public class InteractPlayer : MonoBehaviour
                 if (Input.GetMouseButtonDown(0))
                 {
                     statusRead = !statusRead;
+
+                    bool isTrigger = _hit.transform.GetComponent<InteractPaper>().isTrigger;
+                    Debug.Log(!statusRead);
+                    if (!statusRead && isTrigger)
+                    {
+                        _hit.transform.GetComponent<QuestTaker>().OnTriggerOther();
+                    }
+
                     _hit.transform.GetComponent<InteractPaper>().Read(statusRead);
                     crosshair.gameObject.SetActive(!statusRead);
                 }
@@ -100,16 +121,12 @@ public class InteractPlayer : MonoBehaviour
         {
             _image.gameObject.SetActive(false);
             crosshair.gameObject.SetActive(false);
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
         }
 
         else if (!isObjectSerialze)
         {
             _image.gameObject.SetActive(false);
             crosshair.gameObject.SetActive(true);
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
         }
 
         

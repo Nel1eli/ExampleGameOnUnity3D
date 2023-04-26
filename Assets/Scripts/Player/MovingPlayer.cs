@@ -1,3 +1,4 @@
+using System.Net;
 using System.Net.Http.Headers;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
@@ -42,6 +43,8 @@ public class MovingPlayer : MonoBehaviour
     [SerializeField] private float gravityForce = 20;
     private float gravityCurrent;
 
+    [Header("Pause menu")]
+    [SerializeField] private GameObject pauseMenu;
 
     [Header("Components")]
     [Range(0, 1)]
@@ -58,7 +61,7 @@ public class MovingPlayer : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
-        Cursor.visible = false;
+        Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Locked;
         fovStart = fovInit = 70;
 
@@ -71,7 +74,40 @@ public class MovingPlayer : MonoBehaviour
     }
     void Update()
     {
-        
+
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            isLock = !isLock;
+            if (isLock)
+            {
+                
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+                Debug.Log(Cursor.lockState);
+
+                Time.timeScale = 0;
+                pauseMenu.SetActive(true);
+            }
+            
+            else
+            {
+                
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+                Debug.Log(Cursor.lockState);
+
+                Time.timeScale = 1;
+                pauseMenu.SetActive(false);
+            }
+                
+        }
+
+        if (isLock)
+        {
+            if (Time.timeScale == 1)
+                isLock = !isLock;
+        }
 
         RaycastHit hit;
         if (Physics.Raycast(transform.position, -transform.up, out hit, 2))
@@ -82,22 +118,7 @@ public class MovingPlayer : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            isLock = !isLock;
-            if (isLock)
-            {
-                Time.timeScale = 0;
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-            }
-            else
-            {
-                Time.timeScale = 1;
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-            }
-        }
+        if (Time.timeScale == 0) return;
         if (controller.isGrounded)
         {
             moveVer = Input.GetAxis("Vertical");
@@ -155,7 +176,7 @@ public class MovingPlayer : MonoBehaviour
     }
     private void Rotate()
     {
-        if (!isLock && !InteractPlayer.statusRead)
+        if (!(Time.timeScale == 0) && !InteractPlayer.statusRead)
         {
             rotateHor += Input.GetAxis("Mouse X") * rotateSpeed * Time.deltaTime * 100;
             rotateVer += Input.GetAxis("Mouse Y") * rotateSpeed * Time.deltaTime * 100;

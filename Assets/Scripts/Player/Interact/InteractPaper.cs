@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class InteractPaper : MonoBehaviour
 {
+    [Header("Триггер для квеста")]
+    [SerializeField] public bool isTrigger;
     [Header("Текст")]
     [SerializeField] Image text;
     [Header("Звук")]
